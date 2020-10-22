@@ -55,6 +55,9 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
     #     raise Exception
 
     combined_df.insert(0, 'LastFirst', combined_df.Last.str.title() + combined_df.First.str.title())
+    #combined_df.to_csv('Error.csv')
+    #new line to deal with set_index must be unique Error
+    combined_df = combined_df.drop_duplicates(subset=['LastFirst'])
     combined_df = combined_df.set_index('LastFirst')
     # combined_df'cs_experience'] = determine_cs_experience(combined_df['CS Courses'], combined_df['Programming Languages'])
     combined_df['matched_company'] = None

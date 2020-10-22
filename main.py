@@ -36,7 +36,10 @@ def main():
         match_counter += 1
 
     if match_counter == 1000:
-        unmatched_students = [name for name in students.keys if students[name]['matched_company'] == None]
+        #old code
+        #unmatched_students = [name for name in students.keys if students[name]['matched_company'] == None]
+        #new code
+        unmatched_students = [name for name in students.keys() if students[name]['matched_company'] == None]
         with open('unmatched.csv', 'w') as f:
             f.write('Last, First')
             for name in unmatched_students:
