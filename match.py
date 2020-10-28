@@ -1,9 +1,12 @@
 from typing import Tuple
 from random import shuffle
 import pandas as pd
+import numpy as np
 
 def is_good_fit(new_student: dict, team: list , students: dict) -> bool:
     """TO DO"""
+    #if np.isnan(new_student['gender']):
+    #    print(new_student)
     if 'Male' in new_student['gender'] and 'Male' in [students[name]['gender'] for name in team]:
         return False
 
@@ -73,9 +76,13 @@ def match_team_fit(students: dict, companies: dict) -> Tuple[dict, dict]:
             #old code, couldn't index using company['team'] like we did before because we set company to something different here
             #if len(company['team']) < int(company['num_students']) and name not in company['exclude'] and is_good_fit(student, company['team'], students):
             #solution: properly index to find the company team length, new code line 75
-            if len(companies[company]['team']) < int(companies[company]['num_students']) and name not in company['exclude'] and is_good_fit(student, company['team'], students):
-                students[name]['matched_company'] = company.key
-                companies[company.key]['team'].append(name)
+            if len(companies[company]['team']) < int(companies[company]['num_students']) and name not in companies[company]['exclude'] and is_good_fit(student, companies[company]['team'], students):
+                #old code
+                #students[name]['matched_company'] = company.key
+                #companies[company.key]['team'].append(name)
+                #new code
+                students[name]['matched_company'] = company
+                companies[company]['team'].append(name)
                 break
     return students, companies
 

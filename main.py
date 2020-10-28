@@ -41,15 +41,18 @@ def main():
         #new code
         unmatched_students = [name for name in students.keys() if students[name]['matched_company'] == None]
         with open('unmatched.csv', 'w') as f:
-            f.write('Last, First')
+            f.write('Last, First\n')
             for name in unmatched_students:
                 f.write(f"{students[name]['last']}, {students[name]['first']}")
 
     with open('matches.csv', 'w') as f:
-        f.write('Last, First, Team\n')
+        f.write('Last, First, Emplid, Team\n')
         for name in students:
             if students[name]['matched_company']:
-                f.write(f"{students[name]['last']}, {students[name]['first']}, {students[name]['matched_company']}\n")
+                #newcode
+                f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['EMPLID']},{students[name]['matched_company']}\n")
+                #old code
+                #f.write(f"{students[name]['last']}, {students[name]['first']}, {students[name]['matched_company']}\n")
     return
 
 if __name__ == "__main__":

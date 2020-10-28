@@ -50,7 +50,21 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
     enrollment_df = load_enrollment(enrollment_file)
     pref_df = load_student_pref(pref_file)
 
-    combined_df = pref_df.merge(enrollment_df,on='EMPLID').merge(app_df,on='EMPLID')
+    #added code to avoid error for column types below
+    pref_df['EMPLID']=enrollment_df['EMPLID'].astype(int)
+    #app_df['EMPLID']=app_df['EMPLID'].astype(str)
+    #pref_df['EMPLID']=pref_df['EMPLID'].astype(str)
+    #print('!!!!!!!!!!!!!!type enroll', type(enrollment_df.loc[5,'EMPLID']))
+    #print('!!!!!!!!!!!!!!type enroll', type(app_df.loc[5,'EMPLID']))
+    #print('!!!!!!!!!!!!!!type enroll', type(pref_df.loc[5,'EMPLID']))
+
+    #old code
+    #combined_df = pref_df.merge(enrollment_df,on='EMPLID').merge(app_df,on='EMPLID')
+    #new newcode
+    combined_df = pref_df.merge(enrollment_df,on='EMPLID')
+    #print(len(combined_df),len(app_df))
+    combined_df = combined_df.merge(app_df,on='EMPLID')
+    #print('!!!!!!!!!!!!!!!!!!',len(combined_df))
     # if len(pref_df) != len(combined_df):
     #     raise Exception
 
@@ -59,6 +73,7 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
     #new line to deal with set_index must be unique Error
     combined_df = combined_df.drop_duplicates(subset=['LastFirst'])
     combined_df = combined_df.set_index('LastFirst')
+    #print('!!!!!!!!!!!!!!!!!!after alts',len(combined_df))
     # combined_df'cs_experience'] = determine_cs_experience(combined_df['CS Courses'], combined_df['Programming Languages'])
     combined_df['matched_company'] = None
     combined_df.drop(columns=['CS Courses', 'Programming Languages'], inplace=True)
@@ -109,4 +124,5 @@ def load_companies(info_file, pref_file) -> dict:
     combined_df = pref_df.merge(info_df, on='Organization')
     combined_df['team'] = np.empty((len(combined_df), 0)).tolist()
     combined_df = combined_df.set_index('Organization')
+    #print(combined_df.index.to_list)
     return combined_df.to_dict(orient='index')
