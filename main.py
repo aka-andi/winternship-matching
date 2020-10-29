@@ -36,9 +36,6 @@ def main():
         match_counter += 1
 
     if match_counter == 1000:
-        #old code
-        #unmatched_students = [name for name in students.keys if students[name]['matched_company'] == None]
-        #new code
         unmatched_students = [name for name in students.keys() if students[name]['matched_company'] == None]
         with open('unmatched.csv', 'w') as f:
             f.write('Last, First\n')
@@ -46,13 +43,10 @@ def main():
                 f.write(f"{students[name]['last']}, {students[name]['first']}")
 
     with open('matches.csv', 'w') as f:
-        f.write('Last, First, Emplid, Team\n')
+        f.write('Last, First, Team\n')
         for name in students:
             if students[name]['matched_company']:
-                #newcode
-                f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['EMPLID']},{students[name]['matched_company']}\n")
-                #old code
-                #f.write(f"{students[name]['last']}, {students[name]['first']}, {students[name]['matched_company']}\n")
+                f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['matched_company']}\n")
     return
 
 if __name__ == "__main__":

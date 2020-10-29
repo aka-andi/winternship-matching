@@ -24,9 +24,6 @@ def is_good_fit(new_student: dict, team: list , students: dict) -> bool:
 def match_mutual(students: dict, companies: dict) -> Tuple[dict, dict]:
     """Match based on student rankings and company preferences"""
     #turning students.keys() into a list to squash dict obj not iterable bug
-    #old code
-    #all_students = students.keys()
-    #new code
     all_students = list(students.keys())
     shuffle(all_students)
     for name in all_students:

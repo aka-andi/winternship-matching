@@ -58,12 +58,14 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
     #print('!!!!!!!!!!!!!!type enroll', type(app_df.loc[5,'EMPLID']))
     #print('!!!!!!!!!!!!!!type enroll', type(pref_df.loc[5,'EMPLID']))
 
+    #testing to find out why match pool is smaller than students enrolled
     #old code
     #combined_df = pref_df.merge(enrollment_df,on='EMPLID').merge(app_df,on='EMPLID')
     #new newcode
     combined_df = pref_df.merge(enrollment_df,on='EMPLID')
     #print(len(combined_df),len(app_df))
     combined_df = combined_df.merge(app_df,on='EMPLID')
+    #solution: if emplids are not the same across datasets, match pool will shrink
     #print('!!!!!!!!!!!!!!!!!!',len(combined_df))
     # if len(pref_df) != len(combined_df):
     #     raise Exception
