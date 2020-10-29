@@ -4,3 +4,4 @@ __pycache__/
 env/
 matching/__pycache__/
 *.csv
+.csv
