@@ -3,10 +3,10 @@ import numpy as np
 
 def load_applications(file_path: str) -> pd.DataFrame:
     """TODO
-    CSV must have columns "EMPLID", "Gender", "CUNY", "Year", "CS Courses"
+    CSV must have columns "EMPLID", "Gender", "CUNY", "Year", "CS Courses", "Govt ID", "F1/J1"
     """
     df = pd.read_csv(file_path,
-                     usecols=["EMPLID", "Gender", "CUNY", "Year", "CS Courses"],
+                     usecols=["EMPLID", "Gender", "CUNY", "Year", "CS Courses", "Govt ID", "F1/J1"],
                      skipinitialspace=True,
                      skiprows=[1,2])
     df['Gender'] = df['Gender'].str.split(',')
@@ -31,7 +31,7 @@ def load_student_pref(file_path: str) -> pd.DataFrame:
     df = pd.read_csv(file_path,
                      usecols=["First", "Last", "EMPLID", "Preferences"],
                      skipinitialspace=True,
-                     skiprows=[1,2])
+                     skiprows=[1])
     df['Preferences'] = df['Preferences'].str.split(',')
     return df
 
@@ -51,7 +51,7 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
     pref_df = load_student_pref(pref_file)
 
     #added code to avoid error for column types below
-    pref_df['EMPLID']=enrollment_df['EMPLID'].astype(int)
+    pref_df['EMPLID']=pref_df['EMPLID'].astype(int)
     #app_df['EMPLID']=app_df['EMPLID'].astype(str)
     #pref_df['EMPLID']=pref_df['EMPLID'].astype(str)
     #print('!!!!!!!!!!!!!!type enroll', type(enrollment_df.loc[5,'EMPLID']))
@@ -74,6 +74,7 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
     #combined_df.to_csv('Error.csv')
     #new line to deal with set_index must be unique Error
     combined_df = combined_df.drop_duplicates(subset=['LastFirst'])
+    #combined_df = combined_df.reset_index(drop='true')
     combined_df = combined_df.set_index('LastFirst')
     #print('!!!!!!!!!!!!!!!!!!after alts',len(combined_df))
     # combined_df'cs_experience'] = determine_cs_experience(combined_df['CS Courses'], combined_df['Programming Languages'])
@@ -84,8 +85,11 @@ def load_students(app_file, enrollment_file, pref_file) -> dict:
                                 'Gender': 'gender',
                                 'Year': 'year',
                                 'CUNY': 'cuny',
+                                "Govt ID":'govtid',
+                                "F1/J1":'f1j1',
                                 'Interests': 'interests',
                                 'Preferences': 'ranked_companies'}, inplace=True)
+
     return combined_df.to_dict(orient='index')
 
 def load_company_info(file_path: str) -> pd.DataFrame:

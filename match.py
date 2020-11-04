@@ -3,6 +3,13 @@ from random import shuffle
 import pandas as pd
 import numpy as np
 
+def is_eligible(new_student: dict, company: str, companies: dict) -> bool:
+    if ('No' in new_student['govtid'] and companies[company]['sponsored'] != True):
+        return False
+    if 'No' in new_student['f1j1'] and companies[company]['f1_j1'] != True:
+        return False
+    return True
+
 def is_good_fit(new_student: dict, team: list , students: dict) -> bool:
     """TO DO"""
     #if np.isnan(new_student['gender']):
@@ -30,7 +37,7 @@ def match_mutual(students: dict, companies: dict) -> Tuple[dict, dict]:
         student = students[name]
         for company_name in student['ranked_companies']:
             company = companies[company_name]
-            if len(company['team']) < int(company['num_students']) and name in company['prefer'] and is_good_fit(student, company['team'], students):
+            if len(company['team']) < int(company['num_students']) and name in company['prefer'] and is_good_fit(student, company['team'], students) and is_eligible(student,company_name,companies):
                 students[name]['matched_company'] = company_name
                 companies[company_name]['team'].append(name)
                 break
@@ -53,7 +60,7 @@ def match_student_pref(students, companies) -> Tuple[dict, dict]:
             #print(is_good_fit(student, company['team'], students), type(is_good_fit(student, company['team'], students)))
             #conclusion: name not in company['exclude'] may throw an error if exclude is left blank
             #set blank excludes or prefers to random letter like x to get around this
-            if len(company['team']) < int(company['num_students']) and name not in company['exclude'] and is_good_fit(student, company['team'], students):
+            if len(company['team']) < int(company['num_students']) and name not in company['exclude'] and is_good_fit(student, company['team'], students) and is_eligible(student,company_name,companies):
                 students[name]['matched_company'] = company_name
                 #print('!!!!!!!',students[name],[company_name])
                 companies[company_name]['team'].append(name)
@@ -73,7 +80,7 @@ def match_team_fit(students: dict, companies: dict) -> Tuple[dict, dict]:
             #old code, couldn't index using company['team'] like we did before because we set company to something different here
             #if len(company['team']) < int(company['num_students']) and name not in company['exclude'] and is_good_fit(student, company['team'], students):
             #solution: properly index to find the company team length, new code line 75
-            if len(companies[company]['team']) < int(companies[company]['num_students']) and name not in companies[company]['exclude'] and is_good_fit(student, companies[company]['team'], students):
+            if len(companies[company]['team']) < int(companies[company]['num_students']) and name not in companies[company]['exclude'] and is_good_fit(student, companies[company]['team'], students) and is_eligible(student,company,companies):
                 #old code
                 #students[name]['matched_company'] = company.key
                 #companies[company.key]['team'].append(name)

@@ -38,15 +38,15 @@ def main():
     if match_counter == 1000:
         unmatched_students = [name for name in students.keys() if students[name]['matched_company'] == None]
         with open('unmatched.csv', 'w') as f:
-            f.write('Last, First\n')
+            f.write('Last, First, Emplid\n')
             for name in unmatched_students:
-                f.write(f"{students[name]['last']}, {students[name]['first']}")
+                f.write(f"{students[name]['last']}, {students[name]['first']}, {students[name]['EMPLID']}")
 
     with open('matches.csv', 'w') as f:
-        f.write('Last, First, Team\n')
+        f.write('Last, First, Emplid, Team\n')
         for name in students:
             if students[name]['matched_company']:
-                f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['matched_company']}\n")
+                f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['EMPLID']},{students[name]['matched_company']}\n")
     return
 
 if __name__ == "__main__":
