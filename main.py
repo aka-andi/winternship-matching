@@ -1,6 +1,7 @@
 from file_io import load_students, load_companies
 from match import match, valid_match
 
+
 def main():
     # students = {
     #     'ConnollyRachel': {'first': 'Rachel', 'last': 'Connolly', 'gender': ['Female'],
@@ -28,15 +29,13 @@ def main():
     company_pref_file = 'data/company_pref.csv'
     companies = load_companies(company_info_file, company_pref_file)
 
-    # TODO: Validate files
-
     match_counter = 0
-    while not valid_match(students, companies) and match_counter < 1000:
+    while not valid_match(students) and match_counter < 1000:
         students, companies = match(students, companies)
         match_counter += 1
 
     if match_counter == 1000:
-        unmatched_students = [name for name in students.keys() if students[name]['matched_company'] == None]
+        unmatched_students = [name for name in students.keys() if students[name]['matched_company'] is None]
         with open('unmatched.csv', 'w') as f:
             f.write('Last, First, Emplid\n')
             for name in unmatched_students:
@@ -48,6 +47,7 @@ def main():
             if students[name]['matched_company']:
                 f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['EMPLID']},{students[name]['matched_company']}\n")
     return
+
 
 if __name__ == "__main__":
     main()
