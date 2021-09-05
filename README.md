@@ -9,7 +9,7 @@ Given a set of exclusion criterion from companies, match student and employer pr
 * Initial pass - compare if both student and employer have a pref for each other (thus match them)
 * Second pass - match those with a pref
 * Third pass - match leftovers with no successful prefs
-Does not take into account individual projects within a company, only has companies listed
+* Does not take into account individual projects within a company, only has companies listed
 
 ### Concerns / Areas to Modify
 * Equity - do all students get best matches?
@@ -26,8 +26,8 @@ Does not take into account individual projects within a company, only has compan
 * Ingests a lot of data -> try to simplify from 5 files to less. Consider not using student application
 
 ## Tasks
-- [ ] Understand the codebase
-- [ ] Make it run
+- [x] Understand the codebase
+- [x] Make it run
 - [ ] Add comments for better readability
 - [ ] Refactor code
 - [ ] Create synthetic data to extend the current data (can write a script for this)
