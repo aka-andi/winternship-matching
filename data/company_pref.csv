@@ -1,3 +1,7 @@
-﻿V1,V2,V3,V4,V5,Q1,Q2,Q3,Organization,Prefer,Exclude,
-ResponseID,ResponseSet,StartDate,EndDate,Finished,Winternship 2021 Company Match PreferencesThank you for participating in the Match Event! We hope...,Your Name,Your Email,Organization,Prefer,Exclude,
-R_2zJc453NsdZgPPU,Default Response Set,2020-09-01 20:11:57,2020-09-01 20:19:01,1,1,Rachel Connolly,rc864@cornell.edu,Company A,"johnson, samantha / Abbott, Rose / Connolly, Rachel","Connolly, Danielle / Lau, Jennifer",
+﻿V1,V2,V3,V4,V5,Q1,Q2,Q3,Organization,Prefer,Exclude
+ResponseID,ResponseSet,StartDate,EndDate,Finished,Winternship 2021 Company Match PreferencesThank you for participating in the Match Event! We hope...,Your Name,Your Email,Organization,Prefer,Exclude
+R_2zJc453NsdZgPPU,Default Response Set,9/1/2020 20:11,9/1/2020 20:19,1,1,Rachel Connolly,rc864@cornell.edu,Company A,"johnson, samantha / Abbott, Rose / Connolly, Rachel","Connolly, Danielle / Lau, Jennifer"
+R_2zJc453NsdZgPPU,Default Response Set,9/1/2020 20:11,9/1/2020 20:19,1,1,Rachel Connolly,rc864@cornell.edu,Company B,"johnson, samantha / Abbott, Rose / Connolly, Rachel","Connolly, Danielle / Lau, Jennifer"
+R_2zJc453NsdZgPPU,Default Response Set,9/1/2020 20:11,9/1/2020 20:19,1,1,Rachel Connolly,rc864@cornell.edu,Company C,"johnson, samantha / Abbott, Rose / Connolly, Rachel","Connolly, Danielle / Lau, Jennifer"
+R_2zJc453NsdZgPPU,Default Response Set,9/1/2020 20:11,9/1/2020 20:19,1,1,Rachel Connolly,rc864@cornell.edu,Company D,"johnson, samantha / Abbott, Rose / Connolly, Rachel","Connolly, Danielle / Lau, Jennifer"
+R_2zJc453NsdZgPPU,Default Response Set,9/1/2020 20:11,9/1/2020 20:19,1,1,Rachel Connolly,rc864@cornell.edu,Company E,"johnson, samantha / Abbott, Rose / Connolly, Rachel","Connolly, Danielle / Lau, Jennifer"

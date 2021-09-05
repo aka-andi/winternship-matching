@@ -130,5 +130,4 @@ def load_companies(info_file, pref_file) -> dict:
     combined_df = pref_df.merge(info_df, on='Organization')
     combined_df['team'] = np.empty((len(combined_df), 0)).tolist()
     combined_df = combined_df.set_index('Organization')
-    #print(combined_df.index.to_list)
     return combined_df.to_dict(orient='index')
