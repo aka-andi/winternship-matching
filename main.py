@@ -1,5 +1,6 @@
 from file_io import load_students, load_companies
 from match import match, valid_match
+# from match_maker import match
 
 
 def main():
@@ -11,9 +12,9 @@ def main():
     #                  'matched_company': None}
     # }
 
-    app_file = 'data/student_applications.csv'
-    enrollment_file = 'data/student_enrollment.csv'
-    student_pref_file = 'data/student_pref.csv'
+    app_file = 'data/student_applications.csv' # Application file, student answers to a bunch of questions about themselves
+    enrollment_file = 'data/student_enrollment.csv' # Student answers to questions about winternship-specific questions (access to computers, etd)
+    student_pref_file = 'data/student_pref.csv' # Student answers questions about company preferences
     students = load_students(app_file, enrollment_file, student_pref_file)
 
     # companies = {
@@ -46,7 +47,6 @@ def main():
         for name in students:
             if students[name]['matched_company']:
                 f.write(f"{students[name]['last']}, {students[name]['first']},{students[name]['EMPLID']},{students[name]['matched_company']}\n")
-    return
 
 
 if __name__ == "__main__":
