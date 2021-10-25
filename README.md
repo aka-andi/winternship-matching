@@ -1,34 +1,19 @@
 # Matching Algorithm for BTT Winternships
 
-Given a set of exclusion criterion from companies, match student and employer preferences to assign students to projects per company
-* Companies have students to include / exclude (see data/company_pref.csv)
-* Students have companies they prefer and can rank them in order
-* Also note factors like F1/J1, Gov't ID, Sponsored Companies
+## How to Run
+Download files student_applications.csv, student_enrollments.csv, student_prefs.csv,
+company_info.csv, and company_pref.csv. Ensure that they are under the "data"
+folder. Under the "src" folder run:
+> python3 main.py
 
-## Current state
-* Initial pass - compare if both student and employer have a pref for each other (thus match them)
-* Second pass - match those with a pref
-* Third pass - match leftovers with no successful prefs
-* Does not take into account individual projects within a company, only has companies listed
 
-### Concerns / Areas to Modify
-* Equity - do all students get best matches?
-* Fails when there are rank orders
-* Algorithm can be complicated since we want the best for everybody
-* Create team diversity using:
-    * Academic Standing *questionable
-    * Major Type
-    * Gender
-* Student shouldn’t match with company that has a project in a language they don’t know
-* Treat projects as individuals, rather than the companies (if company has multiple projects they might pref one for specific project)
-* Possibly allow students to exclude companies (so they get rid of those that don’t know languages)
-* “Weighted Lottery” -> if one project is popular, use random
-* Ingests a lot of data -> try to simplify from 5 files to less. Consider not using student application
+The matches should appear under "results" folder.
 
-## Tasks
-- [x] Understand the codebase
-- [x] Make it run
-- [ ] Add comments for better readability
-- [ ] Refactor code
-- [ ] Create synthetic data to extend the current data (can write a script for this)
-- [ ] Use real data (available Oct. 8) to test out/fix up algorithm
+## Configuration
+The **scoring_config.json** file can be used to specify criteria by which the
+algorithm will prioritize students in matching with their first preferences. For
+example, by default the configuration file contains bounds for GPA. This means
+that students with GPAs in that range will have a higher chance of being
+matched to their top choice. The file also specifies criteria which diversity is
+measured in a particular roster for a project/company. This scoring
+criteria can be modified by the user to their liking.

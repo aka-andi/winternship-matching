@@ -1,9 +1,9 @@
 import random
 import csv
 import string
-from entity_classes import Student
+import os
 
-
+num_enrolled_students = 40
 qualtrics_fields = ['9/1/2020  9:17:00 PM', '9/1/2020  9:18:00 PM', 'Survey Preview', '*******', '100', '63', 'TRUE',
                     '9/1/2020  9:18:00 PM']
 languages = ['CSS', 'C++', 'C#', 'HTML', 'Java', 'Javascript', 'Objective-C', 'Perl', 'PHP', 'Python', 'Ruby',
@@ -16,27 +16,25 @@ agreement_levels = ['Strongly disagree', 'Somewhat disagree', 'Neither agree nor
 likelihood_levels = ['Not at all likely', 'A little likely', 'Somewhat likely', 'Likely', 'Very Likely']
 pronouns = ['she/her/hers', 'he/his/him', 'they/them/their', 'ze/zir/zis']
 
+DATA_DIR = "../data"
 
 def get_students():
     students = []
-    student_apps = open('./data/student_applications.csv', newline='')
-    reader = csv.DictReader(student_apps)
-    line_num = 0
-    for row in reader:
-        if line_num < 2:
-            line_num += 1
+    student_applications = csv.DictReader(open('{}/student_applications.csv'.format(DATA_DIR), newline=''))
+    for data in student_applications:
+        name = (data['Q4'].strip() + ", " + data['Q2'].strip()).upper()
+        try:
+            int(data['Progress'])
+        except ValueError:
             continue
-        if row['Q4'].strip() == '' and row['Q2'].strip() == '':
-            continue
-        name = (", ".join([row['Q4'].strip(), row['Q2'].strip()])).upper().strip()
-        if name.replace(", ", "").strip() != '':
+        if name not in students:
             students.append(name)
-        line_num += 1
-    return students
+    return students[:num_enrolled_students]
 
 
 def generate_student_enrollment_data():
-    with open(r'./data/student_enrollment.csv', 'a', newline='') as f:
+    with open(r'../data/student_enrollment.csv', 'w', newline='') as f:
+        print("Writing student_enrollment.csv...")
         writer = csv.writer(f)
         students = get_students()
         header = ['StartDate','EndDate','Status','IPAddress','Progress','Duration (in seconds)','Finished','RecordedDate','ResponseId','RecipientLastName','RecipientFirstName','RecipientEmail','ExternalReference','LocationLatitude','LocationLongitude','DistributionChannel','UserLanguage','EMPLID','Q3','Q4','Q4_5_TEXT','Q5','Q6','Q7','Programming Languages','Q8_15_TEXT','Interests','Q9_10_TEXT','Q11','Q12','Q13','Q14','Q16','Q17','Q18','Q19','Q20_1','Q20_2','Q20_3','Q20_4','Q21','Q22','Q23']
@@ -73,7 +71,7 @@ def generate_student_preference_data(num_companies):
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:num_companies]
     for i in range(len(alphabet)):
         companies.append("Company {}".format(alphabet[i]))
-    with open(r'./data/student_pref.csv', 'a', newline='') as f:
+    with open(r'../data/student_pref.csv', 'w', newline='') as f:
         print("Writing student_pref.csv...")
         students = get_students()
         writer = csv.writer(f)
@@ -106,7 +104,7 @@ def generate_company_preference_data(num_companies):
         companies.append("Company {}".format(alphabet[i]))
     students = get_students()
 
-    with open(r'./data/company_pref.csv', 'a', newline='') as f:
+    with open(r'../data/company_pref.csv', 'w', newline='') as f:
         print("Writing company_pref.csv...")
         header = ['V1','V2','V3','V4','V5','Q1','Q2','Q3','Organization','Prefer','Exclude']
         writer = csv.writer(f)
@@ -130,7 +128,7 @@ def generate_company_info_data(num_companies, max_student_capacity):
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:num_companies]
     for i in range(len(alphabet)):
         companies.append("Company {}".format(alphabet[i]))
-    with open(r'./data/company_info.csv', 'a', newline='') as f:
+    with open(r'../data/company_info.csv', 'w', newline='') as f:
         print("Writing company_info.csv...")
         header = ['Organization', 'Number of Students', 'Sponsored', 'F1/J1']
         writer = csv.writer(f)
@@ -144,3 +142,23 @@ def generate_company_info_data(num_companies, max_student_capacity):
                 random.choice(['True', 'False'])
                 ])
         f.close()
+
+def generate_mock_data(num_companies=10, max_student_capacity=30):
+    try:
+        os.mkdir(DATA_DIR)
+    except FileExistsError:
+        pass
+    try:
+        print("Clearing old data...")
+        os.remove("{}/company_pref.csv".format(DATA_DIR))
+        os.remove("{}/company_info.csv".format(DATA_DIR))
+        os.remove("{}/student_enrollment.csv".format(DATA_DIR))
+        os.remove("{}/student_pref.csv".format(DATA_DIR))
+    except FileNotFoundError as e:
+        print(e)
+        pass
+    print("Generating mock data...")
+    generate_student_enrollment_data()
+    generate_student_preference_data(num_companies)
+    generate_company_preference_data(num_companies)
+    generate_company_info_data(num_companies, max_student_capacity)
